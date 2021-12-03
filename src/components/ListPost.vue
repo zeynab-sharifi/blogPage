@@ -1,16 +1,12 @@
 <template>
 <!-- loading post -->
     <div v-if="!loading">
-        <post></post>
+        <post :post="posts[0]"></post>
         <!-- Nested row for non-featured blog posts-->
             <div class="row">
-                <div class="col-lg-6">
-                    <post></post>
-                    <post></post>
-                </div>
-                <div class="col-lg-6">
-                    <post></post>
-                    <post></post>
+                <div class="col-lg-6" v-for="(postGroup , index) in posts.slice(1)" :key="index">
+                    <post v-for="post in postGroup" :key="post.id" :post="post"></post>
+                    
                 </div>
             </div>
     </div>
@@ -18,8 +14,10 @@
     <div class="loader" v-else></div>
 </template>
 <script>
-    import axios from 'axios'
     import Post from './Post.vue'
+    import axios from 'axios'
+    import _ from 'underscore';
+
     export default {
         components:{
             Post
@@ -35,7 +33,11 @@
             axios.get('https://jsonplaceholder.typicode.com/posts?_page1&_limit=9')
             .then(res => {
                 this.loading=false;
-                console.log(res.data)
+                this.posts = res.data;
+                let mainPost = this.posts.shift()
+
+                this.posts = [mainPost , ..._.chunk(this.posts, 2)]
+                console.log(this.posts)
             })
             .catch(err => console.log(err))
         }

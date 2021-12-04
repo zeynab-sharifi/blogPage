@@ -31,12 +31,30 @@ export default {
         currentPage : {
             type : Number,
             required : true
+        },
+        maxVisibleBtn :{
+            type:Number,
+            required: false,
+            default:5
         }
     },
     computed:{
+        //pagination start button
+        startPage(){
+            if(this.currentPage ===1)return 1;
+
+
+            if(this.currentPage === this.totalPage) return this.totalPage -5;
+
+            return this.currentPage -2;
+        },
+        //pagination end page
+        endPage(){
+            return Math.min(this.startPage + this.maxVisibleBtn-1, this.totalPage);
+        },
         pages(){
             let range = [];
-            for(let i=1; i <= this.totalPage;i++){
+            for(let i=this.startPage; i <= this.endPage;i++){
                 range.push({
                     name: i,
                     activePages : i==this.currentPage

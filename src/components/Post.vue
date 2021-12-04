@@ -8,9 +8,10 @@
             <a class="btn btn-danger" href="#!">Read more →</a>
         </div>
     </div>
-</template>
+ </template>
 <script>
-export default {
-    props:['post']
-}
+    export default{
+        props:['post']
+        
+    }
 </script>

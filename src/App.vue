@@ -1,18 +1,17 @@
 <script >
-import NavBlog from './components/NavBlog.vue'
-import HeaderBlog from'./components/layouts/HeaderBlog.vue'
-import ListPost from './components/ListPost.vue'
-import PaginationBlog from './components/layouts/PaginationBlog.vue'
-import FooterBlog from './components/layouts/FooterBlog.vue'
-  export default{
-    components :{
-    NavBlog,
-    HeaderBlog,
-    ListPost,
-    PaginationBlog,
-    FooterBlog
-}
-  }
+  import NavBlog from './components/NavBlog.vue'
+  import HeaderBlog from'./components/layouts/HeaderBlog.vue'
+  import ListPost from './components/ListPost.vue'
+  import FooterBlog from './components/layouts/FooterBlog.vue'
+    export default{
+      components :{
+      NavBlog,
+      HeaderBlog,
+      ListPost,
+      FooterBlog
+  },
+ 
+    }
 </script>
 
 <template>
@@ -25,8 +24,7 @@ import FooterBlog from './components/layouts/FooterBlog.vue'
                <div class="container">
                   <list-post></list-post>
                </div>
-                <!-- Pagination-->
-                <pagination-blog :currentPage="1" :totalPage="5"></pagination-blog>
+                
             </div>
              <!-- Footer-->
             <footer-blog></footer-blog>

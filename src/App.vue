@@ -1,9 +1,9 @@
 <script >
 import NavBlog from './components/NavBlog.vue'
-import HeaderBlog from'./components/lo/HeaderBlog.vue'
+import HeaderBlog from'./components/layouts/HeaderBlog.vue'
 import ListPost from './components/ListPost.vue'
-import PaginationBlog from './components/lo/PaginationBlog.vue'
-import FooterBlog from './components/lo/FooterBlog.vue'
+import PaginationBlog from './components/layouts/PaginationBlog.vue'
+import FooterBlog from './components/layouts/FooterBlog.vue'
   export default{
     components :{
     NavBlog,
@@ -26,7 +26,7 @@ import FooterBlog from './components/lo/FooterBlog.vue'
                   <list-post></list-post>
                </div>
                 <!-- Pagination-->
-                <pagination-blog></pagination-blog>
+                <pagination-blog :currentPage="1" :totalPage="5"></pagination-blog>
             </div>
              <!-- Footer-->
             <footer-blog></footer-blog>

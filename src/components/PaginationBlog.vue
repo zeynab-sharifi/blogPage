@@ -78,3 +78,22 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+    .pagination .page-link{
+        border: none;
+        margin: 0 5px;
+    }
+    .pagination .page-item.active .page-link{
+        background-color: #eb4d4b;
+        border-radius: 7px;
+        color: #fff;
+        box-shadow: 0 1px 2px rgba(0,0,0,.12);
+    }
+    .pagination .page-item .page-link{
+        color: #eb4d4b;
+    }
+    .page-link:hover{
+        color: #121212;
+        border-radius: 7px;
+    }
+</style>

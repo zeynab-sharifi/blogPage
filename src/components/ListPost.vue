@@ -17,6 +17,7 @@
     <div class="loader" v-else></div>
 </template>
 <script>
+    import { ref , reactive} from 'vue'
     import Post from './Post.vue'
     import axios from 'axios'
     import _ from 'underscore';
@@ -27,39 +28,44 @@
             Post,
             PaginationBlog
         },
-         data(){
-            return{
-                posts:null,
-                loading:false,
-                page:{
+        setup(){
+            const posts = ref([]);
+            const loading = ref(false);
+            const page = reactive({
                     current : 1,
                     totalPage : 0
-                }
-            }
-        },
-         methods :{
-            changepage(page){
-                this.getPostData(page)
-            },
-            getPostData(page = 1){      
-            this.loading = true;
-            axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=9`)
-            .then(res => {
-                this.loading=false;
-                this.posts = res.data;
-                let mainPost = this.posts.shift()
+                })
 
-                this.posts = [mainPost , ..._.chunk(this.posts, 2)]
-                this.page.current = page;
-                this.page.totalPage= parseInt(parseInt(res.headers['x-total-count']/9))
-                // console.log(this.page)
+            function getPostData(pageNumber = 1){      
+            loading.value = true;
+            axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${pageNumber}&_limit=9`)
+            .then(res => {
+                loading.value = false;
+                posts.value = res.data;
+                let mainPost = posts.value.shift()
+
+                posts.value = [mainPost , ..._.chunk(posts.value, 2)]
+                page.current = pageNumber;
+                page.totalPage= parseInt(parseInt(res.headers['x-total-count']/9))
+                console.log(posts,pageNumber)
             })
             .catch(err => console.log(err))
         
             }
+
+            function changepage(page = 1){
+                getPostData(page);
+            }
+
+            getPostData(1);
+
+            return {
+                posts,
+                loading,
+                page,
+                changepage
+            }
         },
-        created(){
-            this.getPostData(1)
-        }
+        
     }
 </script>

@@ -18,16 +18,13 @@
                 </nav>
 </template>
 <script>
+import { computed, toRefs } from "vue"; 
 export default {
     props:{
         totalPage : {
             type : Number,
             required : true
         },
-        // prePage : {
-        //     type : Number,
-        //     required : true
-        // },
         currentPage : {
             type : Number,
             required : true
@@ -38,42 +35,44 @@ export default {
             default:5
         }
     },
-    computed:{
-        //pagination start button
-        startPage(){
-            if(this.currentPage ===1)return 1;
+    setup(props , context){
+        const {currentPage , totalPage , maxVisibleBtn } = toRefs(props);
+    //pagination start button
+        const startPage = computed(()=>{
+            if(currentPage.value ===1) return 1;
 
 
-            if(this.currentPage === this.totalPage) return this.totalPage -5;
+            if(currentPage.value === totalPage.value) return totalPage.value -5;
 
-            return this.currentPage -2;
-        },
-        //pagination end page
-        endPage(){
-            return Math.min(this.startPage + this.maxVisibleBtn-1, this.totalPage);
-        },
-        pages(){
+            return currentPage.value -2;
+        })
+    //pagination end page
+        const endPage = computed(() => Math.min(startPage.value + maxVisibleBtn.value-1, totalPage.value))
+
+        const pages = computed(()=>{
             let range = [];
-            for(let i=this.startPage; i <= this.endPage;i++){
+            for(let i=startPage.value; i <= endPage.value;i++){
                 range.push({
                     name: i,
-                    activePages : i==this.currentPage
+                    activePages : i==currentPage.value
                 })
             }
-            return range;
-        },
-        fristPage(){
-            return this.currentPage === 1;
-        },
-        lastPage(){
-             return this.currentPage === this.totalPage;
+            return range; 
+        })
+
+        const fristPage = computed(()=>{currentPage.value === 1})
+
+        const lastPage = computed(()=>{currentPage.value === totalPage.value})
+
+        function clickPage(page){
+            context.emit('pagechange', page)
         }
 
-    },
-    methods:{
-        clickPage(page){
-            // console.log(page)
-            this.$emit('pagechange' , page)
+        return {
+            pages,
+            fristPage,
+            lastPage,
+            clickPage
         }
     }
 }
